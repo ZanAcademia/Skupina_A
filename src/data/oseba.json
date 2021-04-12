@@ -1,0 +1,22 @@
+{
+  "id": 372,
+  "name": "Unity88",
+  "status": "Alive",
+  "species": "Alien",
+  "type": "Hivemind",
+  "gender": "Genderless",
+  "origin": {
+    "name": "unknown",
+    "url": ""
+  },
+  "location": {
+    "name": "Unity's Planet",
+    "url": "https://rickandmortyapi.com/api/location/28"
+  },
+  "image": "https://rickandmortyapi.com/api/character/avatar/372.jpeg",
+  "episode": [
+    "https://rickandmortyapi.com/api/episode/14"
+  ],
+  "url": "https://rickandmortyapi.com/api/character/372",
+  "created": "2018-01-10T19:20:50.211Z"
+}
