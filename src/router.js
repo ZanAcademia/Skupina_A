@@ -12,7 +12,7 @@ const routes = [
     { path: '/igre', component: Igre },
     { path: '/igra', component: Igra },
     { path: '/igra_edit/:id', component: igra_edit, name:'igra_edit', props:true  },
-    { path: '/igra_new', component: igra_new },
+    { path: '/igra_new', component: igra_new, name:'igra_new' },
     { path: '/hello', component: HelloWorld,  name:'hello2' },
     { path: '/hello/:msg', component: HelloWorld,  name:'hello', props:true },
 ]

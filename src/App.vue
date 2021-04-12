@@ -1,14 +1,16 @@
 <template>
+  <glavna-navigacija></glavna-navigacija>
   <img alt="Vue logo" src="./assets/logo.png">
   <router-view></router-view>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
+import navigacija from '@/components/navigacija.vue'
 
 export default {
   name: 'App',
   components: {
+    'glavna-navigacija': navigacija
   }
 }
 </script>
