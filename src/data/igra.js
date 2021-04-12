@@ -11,9 +11,14 @@ export let delaj2 = function (msg) {
     return mojaOseba.name + 'IZPISI' + msg;
 };
 
+class Oseba {
+    constructor(name, ime) {
+        this.name = name
+        this.ime = ime
+    }
+}
 
-export default prva
-
+export default Oseba
 
 console.log(prva)
 
