@@ -125,6 +125,8 @@ import SeznamIger from '../model/SeznamIger';
             igre.splice(i, 1);
             var novSeznamIger = new SeznamIger(igre);
             console.log("novSeznamIger", novSeznamIger);
+            if(novSeznamIger.steviloIger == 0)
+              location.reload();
           }
         }
       }
