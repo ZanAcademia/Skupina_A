@@ -5,3 +5,72 @@ html {
     min-height: 100vh;
     background-color: #fff;
 }
+
+.ml-auto {
+    margin-left:auto;
+}
+
+.mr-auto {
+    margin-right:auto;
+}
+
+.text-right {
+    text-align:right;
+}
+
+.tabelaIger {
+    border-spacing:0;
+}
+
+.tabelaIger td,
+.tabelaIger th {
+    padding:10px;
+}
+
+.tabelaIger th {
+    border-bottom:1px solid #555;
+}
+
+.tabelaIger td {
+    border-bottom:1px solid #999;
+}
+
+.d-none {
+    display:none;
+}
+
+.font-16 {
+    font-size:16px;
+}
+
+.mt-20 {
+    margin-top:20px;
+}
+
+.mt-40 {
+    margin-top:40px;
+}
+
+.mb-60 {
+    margin-bottom:60px;
+}
+
+.obveznoPolje {
+    position:absolute;
+    margin-top:3px;
+    margin-left:10px;
+    font-size:14px;
+    color:#dc143c;
+}
+
+.font-arial {
+    font-family:Arial;
+}
+
+.w-320 {
+    width:320px;
+}
+
+.cursor-pointer {
+    cursor:pointer;
+}
