@@ -2,13 +2,31 @@
   <nav>
     <ul class="nav_links m-0">
       <div class="buttons">
-        <router-link :to="{ name:'login'}"><button>Login</button></router-link>
-        <router-link :to="{ name:'register'}"><button>Register</button></router-link>
+        <router-link v-if="prikaziLogin" :to="{ name:'login'}"><button>Login</button></router-link>
+        <router-link v-if="prikaziLogin" :to="{ name:'register'}"><button>Register</button></router-link>
+        <p v-else>{{loginInfo}}</p>
       </div>
     </ul>
   </nav>
 </template>
 
+<script>
+export default {
+    created() {
+      if (localStorage.getItem("vpisanUporabnik") != null) {
+        this.prikaziLogin = false;
+        var res = JSON.parse(localStorage.getItem("vpisanUporabnik"));
+        this.loginInfo += res.uporabniskoIme;
+      }
+    },
+    data(){
+      return {
+        prikaziLogin : true,
+        loginInfo : "Prijavljen je "
+      }
+    }
+}
+</script>
 
 <style>
 /* ---------------------------------navigation bar------------------------------- */

@@ -58,6 +58,7 @@ export default {
         }
         if (vpisan) {
             localStorage.setItem("vpisanUporabnik", JSON.stringify(vpisanUporabnik));
+            this.$router.push('/');
         } else {
             document.getElementById("napacniPodatki").classList.remove("d-none");            
         }
