@@ -1,7 +1,5 @@
-
 <template>
   <h1>Igre</h1>
-
   <div>
     <h3>Dodaj igro</h3>
     <div>
