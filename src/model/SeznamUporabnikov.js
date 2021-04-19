@@ -1,4 +1,4 @@
-class SeznamIger{
+class SeznamUporabnika{
     // vseIgre je array razreda Igra
     constructor(vsiUporabniki) {
         this.stevilouporabnikov = vsiUporabniki.length;
@@ -6,4 +6,4 @@ class SeznamIger{
         localStorage.setItem('storageVsiUporabniki', JSON.stringify(this));
     }
 }
-export default SeznamIger;
+export default SeznamUporabnika;
