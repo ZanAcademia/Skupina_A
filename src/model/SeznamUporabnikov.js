@@ -1,4 +1,4 @@
-class SeznamIger {
+class SeznamIger{
     // vseIgre je array razreda Igra
     constructor(vsiUporabniki) {
         this.stevilouporabnikov = vsiUporabniki.length;

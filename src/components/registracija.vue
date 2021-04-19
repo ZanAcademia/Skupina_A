@@ -15,7 +15,10 @@
     </div>
     <button v-on:click="register" class="cursor-pointer mt-20">Registracija</button>
   </div>
-
+  <div>
+    <input class="font-16 font-arial w-320" id="izbrisi_id" type="text" placeholder="Id za izbris" autocomplete="off" />
+    <button v-on:click="izbrisi" class="cursor-pointer mt-20">Izbrisi</button>
+  </div>
   <div>
     <p v-if="uporabniskoImeObstaja" style="color:red;">{{uporabniskoImeUporabljeno}}</p>
   </div>
@@ -46,14 +49,28 @@ export default {
           var res = JSON.parse(localStorage.getItem("storageVsiUporabniki"));
           vsiUporabniki = res.Uporabniki;
         }
-        while (vsiUporabniki.find(item => item.uporabniskoIme == novUporabnik.uporabniskoIme)) {
-            return;
-        }
         // dodamo našega uporabnika v seznam uporabnikov
         vsiUporabniki.push(novUporabnik);
         var novSeznamUporabnikov = new SeznamUporabnikov(vsiUporabniki);
         console.log("novSeznamUporabnikov", novSeznamUporabnikov);
         location.reload();
+      },
+      izbrisi : function() {
+        var vsiUporabniki = [];
+        if(localStorage.getItem("storageVsiUporabniki") != null) {
+          var res = JSON.parse(localStorage.getItem("storageVsiUporabniki"));
+          vsiUporabniki = res.Uporabniki;
+        }
+        let index = 0
+        for (index = 0; index < vsiUporabniki.length; index++) {
+            const element = vsiUporabniki[index];
+            if (element.id == document.getElementById("izbrisi_id").value)
+                break;
+        }
+        --this.stevilouporabnikov;
+        vsiUporabniki.splice(index, 1);
+        var novSeznamUporabnikov = new SeznamUporabnikov(vsiUporabniki);
+        console.log("novSeznamUporabnikov", novSeznamUporabnikov);
       },
     },
     data () {
