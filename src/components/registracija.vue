@@ -1,7 +1,7 @@
 <template>
-    <h1>Igre</h1>
+    <h1>Resitracija</h1>
     <div>
-    <h3>Dodaj igro</h3>
+    <h3>Nov uporabnik</h3>
     <div>
       <input class="font-16 w-320 obvezno" id="nov_uporabniskoIme" type="text" placeholder="Uporabniško ime" autocomplete="off" />
       <span class="obveznoPolje d-none">To polje je obvezno</span>

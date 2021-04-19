@@ -78,3 +78,8 @@ html {
 .cursor-pointer {
     cursor:pointer;
 }
+
+.error-msg {
+    color:#dc143c;
+    font-size:14px;
+}
