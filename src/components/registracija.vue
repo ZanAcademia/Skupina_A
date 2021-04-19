@@ -15,12 +15,41 @@
     </div>
     <button v-on:click="register" class="cursor-pointer mt-20">Registracija</button>
   </div>
-  <div>
-    <input class="font-16 font-arial w-320" id="izbrisi_id" type="text" placeholder="Id za izbris" autocomplete="off" />
-    <button v-on:click="izbrisi" class="cursor-pointer mt-20">Izbrisi</button>
-  </div>
-  <div>
-    <p v-if="uporabniskoImeObstaja" style="color:red;">{{uporabniskoImeUporabljeno}}</p>
+  <div class="mt-40 mb-60">
+    <h3>Seznam uporabnikov</h3>
+    <p v-if="niUporabnikov">{{niUporabnikovText}}</p>
+    <table 
+    v-if="prikaziTabelo" 
+    class="tabelaIger ml-auto mr-auto"
+    v-bind:key="seznamVsehUporabnikov.length">
+      <tr>
+        <th>ID</th>
+        <th>Uporabnisko ime</th>
+        <th>Geslo</th>
+        <th>Admin</th>
+        <th>Odstrani</th>
+      </tr>
+      <tr 
+      v-for="uporabnik in seznamVsehUporabnikov"
+      v-bind:key="uporabnik.id">
+        <td>
+          {{uporabnik.id}}
+        </td>
+        <td>
+          {{uporabnik.uporabniskoIme}}
+        </td>
+        <td>
+          {{uporabnik.geslo}}
+        </td>
+        <td class="text-right">
+          {{uporabnik.admin ? "yes" : "no"}}
+        </td>
+        <td>
+          <a class="cursor-pointer" v-on:click="izbrisi(uporabnik.id)">x</a>
+        </td>
+      </tr>
+    </table>
+    
   </div>
 </template>
 
@@ -29,6 +58,10 @@ import Uporabnik from '../model/uporabnik.js'
 import SeznamUporabnikov from '../model/SeznamUporabnikov.js'
 
 export default {
+    created() {
+      this.napolniSeznam();
+      // console.log('Component has been created!');
+    },
     methods: {
         register : function() {
         var requiredFields = document.getElementsByClassName('obvezno');
@@ -42,7 +75,7 @@ export default {
           return;
         var vsiUporabniki = [];
         // ustvarimo novega uporabnika
-        var novUporabnik = new Uporabnik(document.getElementById("nov_uporabniskoIme").value, document.getElementById("nov_geslo").value,document.getElementById("nov_adminCheck").value)
+        var novUporabnik = new Uporabnik(document.getElementById("nov_uporabniskoIme").value, document.getElementById("nov_geslo").value,document.getElementById("nov_adminCheck").checked)
         console.log(novUporabnik);
         // pridobimo obstoječe uporabnike
         if(localStorage.getItem("storageVsiUporabniki") != null) {
@@ -55,7 +88,28 @@ export default {
         console.log("novSeznamUporabnikov", novSeznamUporabnikov);
         location.reload();
       },
-      izbrisi : function() {
+      napolniSeznam : function() {
+        var vsiUporabniki = [];
+        if(localStorage.getItem("storageVsiUporabniki") != null) {
+          var res = JSON.parse(localStorage.getItem("storageVsiUporabniki"));
+          vsiUporabniki = res.Uporabniki;
+          if(vsiUporabniki != null && vsiUporabniki.length > 0) {
+            vsiUporabniki.forEach(uporabnik => {
+              this.seznamVsehUporabnikov.push(uporabnik);
+            });
+          }
+        }
+        if(this.seznamVsehUporabnikov.length == 0) {
+          this.prikaziTabelo = false;
+          this.prikaziNiIger = true;
+        }
+        else {
+          this.prikaziTabelo = true;
+          this.prikaziNiIger = false;
+        }
+        
+      },
+      izbrisi : function(id) {
         var vsiUporabniki = [];
         if(localStorage.getItem("storageVsiUporabniki") != null) {
           var res = JSON.parse(localStorage.getItem("storageVsiUporabniki"));
@@ -64,7 +118,7 @@ export default {
         let index = 0
         for (index = 0; index < vsiUporabniki.length; index++) {
             const element = vsiUporabniki[index];
-            if (element.id == document.getElementById("izbrisi_id").value)
+            if (element.id == id)
                 break;
         }
         --this.stevilouporabnikov;
@@ -75,8 +129,10 @@ export default {
     },
     data () {
       return {
-        uporabniskoImeUporabljeno: "Uporabnisko ime ze uporabljeno!",
-        uporabniskoImeObstaja: true
+        seznamVsehUporabnikov: [],
+        niUporabnikovText: "Ni uporabnikov",
+        prikaziTabelo: false,
+        niUporabnikov: true
       }
     },
 }
