@@ -1,12 +1,3 @@
-// class Oseba {
-//     constructor(name, ime) {
-//         this.name = name
-//         this.ime = ime
-//     }
-// }
-
-// export default Oseba
-
 class Igra {
     constructor(ime, opis, cena) {
         // generira unikaten ID
