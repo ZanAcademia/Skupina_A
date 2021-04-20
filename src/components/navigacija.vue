@@ -2,6 +2,7 @@
   <nav>
     <ul class="nav_links m-0">
       <div class="buttons">
+        <router-link v="Kosarica" :to="{ name:'kosarica'}"><button>Kosarica</button></router-link>
         <router-link v-if="prikaziLogin" :to="{ name:'login'}"><button>Login</button></router-link>
         <router-link v-if="prikaziLogin" :to="{ name:'register'}"><button>Register</button></router-link>
         <p v-else>{{loginInfo}}</p>
