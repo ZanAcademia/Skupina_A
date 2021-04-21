@@ -1,7 +1,7 @@
 <template>
 <!-- seznam iger -->
   <h1>Igre</h1>
-  <button v-on:click="odpriNovaIgraModal">Nova igra</button>
+  <button v-on:click="odpriNovaIgraModal" v-show="this.uporabnikAdmin">Nova igra</button>
   <div class="mt-40 mb-60">
     <h3>Seznam iger</h3>
     <p v-if="prikaziNiIger">{{niIger}}</p>
@@ -14,8 +14,8 @@
         <th>Ime</th>
         <th>Opis</th>
         <th>Cena</th>
-        <th>Uredi</th>
-        <th>Odstrani</th>
+        <th v-show="this.uporabnikAdmin">Uredi</th>
+        <th v-show="this.uporabnikAdmin">Odstrani</th>
       </tr>
       <tr 
       v-for="igra in seznamVsehIger"
@@ -32,10 +32,10 @@
         <td class="text-right">
           {{igra.cena}} €
         </td>
-        <td>
+        <td v-show="this.uporabnikAdmin">
           <a v-on:click="odpriUrediIgroModal(igra.id)" class="cursor-pointer">Uredi</a>
         </td>
-        <td>
+        <td v-show="this.uporabnikAdmin">
           <a class="cursor-pointer" v-on:click="odstraniIgro(igra.id)">x</a>
         </td>
       </tr>
@@ -102,6 +102,7 @@
     // create list of games
     created() {
       this.napolniSeznam();
+      this.uveljaviVlogo();
       // console.log('Component has been created!');
     },
     methods: {
@@ -117,6 +118,19 @@
           }
         }
         this.urediPrazenSeznamIger();
+      },
+      uveljaviVlogo : function() {
+        let vpisanUporabnikTemp = localStorage.getItem("vpisanUporabnik");
+        if(vpisanUporabnikTemp != null && typeof vpisanUporabnikTemp != 'undefined') {
+          this.vpisanUporabnik = JSON.parse(localStorage.getItem("vpisanUporabnik"));
+          console.log(this.vpisanUporabnik);
+          console.log(this.vpisanUporabnik.admin);
+          if(this.vpisanUporabnik != null) {
+            this.uporabnikVpisan = true;
+            this.uporabnikAdmin = this.vpisanUporabnik.admin;
+          }  
+        }
+        
       },
       urediPrazenSeznamIger : function() {
         if(this.seznamVsehIger.length == 0) {
@@ -254,7 +268,10 @@
         niIger: "Na seznamu ni iger",
         prikaziTabelo: ref(false),
         prikaziNiIger: ref(true),
-        idIzbraneIgre: ref("")
+        idIzbraneIgre: ref(""),
+        vpisanUporabnik: ref(null),
+        uporabnikVpisan: ref(false),
+        uporabnikAdmin: ref(false)
       }
     },
   }
