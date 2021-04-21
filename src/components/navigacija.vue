@@ -7,7 +7,7 @@
         <router-link v-if="prikaziLogin" :to="{ name:'login'}"><button>Login</button></router-link>
         <router-link v-if="prikaziLogin" :to="{ name:'register'}"><button>Register</button></router-link>
         <span v-if="prikaziOdjavo">{{loginInfo}}</span>
-        <router-link v-if="prikaziOdjavo" :to="{ name:'odjava'}"><button>Odjava</button></router-link>
+        <div v-if="prikaziOdjavo"><button v-on:click="odjavi">Odjava</button></div>
       </div>
     </ul>
   </nav>
@@ -22,6 +22,12 @@ export default {
         var res = JSON.parse(localStorage.getItem("vpisanUporabnik"));
         this.loginInfo += res.uporabniskoIme;
       }
+    },
+    methods: {
+      odjavi() {
+        localStorage.removeItem("vpisanUporabnik");
+        location.reload();
+      },
     },
     data(){
       return {
