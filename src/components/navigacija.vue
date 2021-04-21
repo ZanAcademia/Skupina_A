@@ -1,11 +1,13 @@
 <template>
   <nav>
     <ul class="nav_links m-0">
+      <li><router-link v="Igre" :to="{ name:'home' }">Logo</router-link></li>
+      <li><router-link v="Kosarica" :to="{ name:'kosarica'}">Kosarica</router-link></li>
       <div class="buttons">
-        <router-link v="Kosarica" :to="{ name:'kosarica'}"><button>Kosarica</button></router-link>
         <router-link v-if="prikaziLogin" :to="{ name:'login'}"><button>Login</button></router-link>
         <router-link v-if="prikaziLogin" :to="{ name:'register'}"><button>Register</button></router-link>
-        <p v-else>{{loginInfo}}</p>
+        <span v-if="prikaziOdjavo">{{loginInfo}}</span>
+        <router-link v-if="prikaziOdjavo" :to="{ name:'odjava'}"><button>Odjava</button></router-link>
       </div>
     </ul>
   </nav>
@@ -16,6 +18,7 @@ export default {
     created() {
       if (localStorage.getItem("vpisanUporabnik") != null) {
         this.prikaziLogin = false;
+        this.prikaziOdjavo = true;
         var res = JSON.parse(localStorage.getItem("vpisanUporabnik"));
         this.loginInfo += res.uporabniskoIme;
       }
@@ -23,6 +26,7 @@ export default {
     data(){
       return {
         prikaziLogin : true,
+        prikaziOdjavo : false,
         loginInfo : "Prijavljen je "
       }
     }
