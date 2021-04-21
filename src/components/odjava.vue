@@ -5,7 +5,7 @@
 <script>
 export default {
     created() {
-      localStorage.clear();
+      localStorage.removeItem("vpisanUporabnik");
       this.$router.push('/');
     },
 }

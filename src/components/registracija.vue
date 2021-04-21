@@ -125,6 +125,7 @@ export default {
         vsiUporabniki.splice(index, 1);
         var novSeznamUporabnikov = new SeznamUporabnikov(vsiUporabniki);
         console.log("novSeznamUporabnikov", novSeznamUporabnikov);
+        this.$router.push('/login');
       },
     },
     data () {
