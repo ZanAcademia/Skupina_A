@@ -70,11 +70,12 @@ nav ul {
 }
 
 .obveznoPolje {
-    position:absolute;
     margin-top:3px;
     margin-left:10px;
     font-size:14px;
     color:#dc143c;
+    text-align:left;
+    margin-left:0;
 }
 
 .font-arial {
@@ -92,4 +93,41 @@ nav ul {
 .error-msg {
     color:#dc143c;
     font-size:14px;
+}
+
+.modal {
+    position:fixed;
+    left:0;
+    top:0;
+    height:100vh;
+    overflow:hidden;
+    right:0;
+    background-color:rgba(0,0,0,0.5);
+}
+
+.modalContent {
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    top:20%;
+    border-radius:20px;
+    background-color:#fff;
+    box-shadow:5px 10px 8px #888888;
+}
+
+.modalHeader {
+    text-align:center;
+    position:relative;
+    padding:15px 30px 0 30px;
+}
+
+.modalBody {
+    padding:0 30px 30px 30px;
+}
+
+.modalClose {
+    position:absolute;
+    right:20px;
+    top:20px;
+    cursor:pointer;
 }
