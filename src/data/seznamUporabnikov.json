@@ -1,0 +1,17 @@
+{
+    "stevilouporabnikov":2,
+    "Uporabniki":[
+        {
+            "id":0,
+            "uporabniskoIme":"admin",
+            "geslo":"gesloAdmin",
+            "admin":true
+        },
+        {
+            "id":1,
+            "uporabniskoIme":"test",
+            "geslo":"gesloTest",
+            "admin":false
+        }
+    ]
+}

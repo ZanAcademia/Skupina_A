@@ -1,3 +1,10 @@
+/* fonts */
+@font-face {
+    font-family: DaysLater;
+    src: url("../fonts/28DaysLater.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
 
 body,
 html {
@@ -28,33 +35,62 @@ nav ul {
     text-align:right;
 }
 
-.tabelaIger {
+.text-left {
+    text-align:left;
+}
+
+table {
     border-spacing:0;
 }
 
-.tabelaIger td,
-.tabelaIger th {
+table td,
+table th {
     padding:10px;
 }
 
-.tabelaIger th {
+table th {
     border-bottom:1px solid #555;
 }
 
-.tabelaIger td {
+table td {
     border-bottom:1px solid #999;
 }
 
 .d-none {
-    display:none;
+    display: none !important;;
+}
+
+.d-flex {
+    display: flex !important;;
+}
+
+.flex-right-center {
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .font-16 {
     font-size:16px;
 }
 
+.font-18 {
+    font-size:18px;
+}
+
+.font-40 {
+    font-size:40px;
+}
+
+.font-60 {
+    font-size:60px;
+}
+
 .m-0 {
     margin: 0px;
+}
+
+.mt-10 {
+    margin-top:10px;
 }
 
 .mt-20 {
@@ -67,6 +103,14 @@ nav ul {
 
 .mb-60 {
     margin-bottom:60px;
+}
+
+.ml-10 {
+    margin-left:10px;
+}
+
+.p-0 {
+    padding:0;
 }
 
 .obveznoPolje {
@@ -121,6 +165,12 @@ nav ul {
     padding:15px 30px 0 30px;
 }
 
+.modalHeader h3 {
+    font-size:30px;
+    font-family:DaysLater;
+    color:#dc143c;
+}
+
 .modalBody {
     padding:0 30px 30px 30px;
 }
@@ -130,4 +180,77 @@ nav ul {
     right:20px;
     top:20px;
     cursor:pointer;
+}
+
+.headerLogo {
+    height:80px;
+}
+
+.font-daysLater {
+    font-family:DaysLater;
+}
+
+.generalRed {
+    color:#dc143c;
+}
+
+/* body {
+    background-color:#888888;
+} */
+
+.btn-main {
+    color:#dc143c;
+    font-size:18px;
+    font-weight:bold;
+    border-radius:15px;
+    padding:5px 10px;
+    border:1px solid #dc143c;
+    background-color:transparent;
+    outline:none;
+    cursor:pointer;
+    text-decoration:none;
+}
+
+.btn-main:hover {
+    color:#fff;
+    background-color:#dc143c;
+}
+
+.uporabniskoIme {
+    font-size:30px;
+    font-family:DaysLater;
+    margin-right:20px;
+    vertical-align:middle;
+}
+
+.redBackground {
+    background-color:#dc143c;
+}
+
+.color-white {
+    color:#fff;
+}
+
+.font-bold {
+    font-weight:bold;
+}
+
+.btn-main.btn-registracija {
+    color:#a9c81c;
+    border:1px solid #a9c81c;
+    margin-left:10px;
+}
+
+.btn-main.btn-registracija:hover {
+    background-color:#a9c81c;
+    color:#333;
+}
+
+.kosaricaTabela {
+    height:25px;
+    cursor:pointer;
+}
+
+table tr:not(:first-child):hover {
+    background-color:rgba(0,0,0,0.2);
 }

@@ -1,19 +1,23 @@
 <template>
   <nav>
-    <ul class="nav_links m-0">
-      <li><router-link v="Igre" :to="{ name:'home' }">Logo</router-link></li>
-      <li><router-link v="Kosarica" :to="{ name:'kosarica'}">Kosarica</router-link></li>
-      <div class="buttons">
-        <router-link v-if="prikaziLogin" :to="{ name:'login'}"><button>Login</button></router-link>
-        <router-link v-if="prikaziLogin" :to="{ name:'register'}"><button>Register</button></router-link>
-        <span v-if="prikaziOdjavo">{{loginInfo}}</span>
-        <div v-if="prikaziOdjavo"><button v-on:click="odjavi">Odjava</button></div>
+    <ul class="nav_links m-0 p-0">
+      <li><router-link v="Igre" :to="{ name:'home' }"><img src="../images/Logo.png" class="headerLogo" /></router-link></li>
+      <!-- <li><router-link v="Kosarica" :to="{ name:'kosarica'}">Kosarica</router-link></li> -->
+      <div class="buttons d-flex flex-right-center">
+        <div>
+          <router-link v-if="prikaziLogin" :to="{ name:'login'}"><button class="btn-main">Vpis</button></router-link>
+          <router-link v-if="prikaziLogin" :to="{ name:'register'}"><button class="btn-main btn-registracija">Registracija</button></router-link>
+          <span class="uporabniskoIme" v-if="prikaziOdjavo">{{loginInfo}}</span>
+          <a id="gumbKosarica" class="btn-main" href="/kosarica" v-if="prikaziOdjavo">Košarica ({{this.steviloIgerVKosarici}})</a>
+          <button v-on:click="odjavi" v-if="prikaziOdjavo" class="btn-main ml-10">Odjava</button>
+        </div>
       </div>
     </ul>
   </nav>
 </template>
 
 <script>
+import {ref} from 'vue';
 export default {
     created() {
       if (localStorage.getItem("vpisanUporabnik") != null) {
@@ -22,18 +26,24 @@ export default {
         var res = JSON.parse(localStorage.getItem("vpisanUporabnik"));
         this.loginInfo += res.uporabniskoIme;
       }
+      if(localStorage.getItem("storageKosarica") != null) {
+          var res2 = JSON.parse(localStorage.getItem("storageKosarica"));
+          this.steviloIgerVKosarici = res2.steviloIger;
+      }
     },
     methods: {
       odjavi() {
         localStorage.removeItem("vpisanUporabnik");
-        location.reload();
+        localStorage.removeItem("storageKosarica");
+        location.href ='/igre';
       },
     },
     data(){
       return {
         prikaziLogin : true,
         prikaziOdjavo : false,
-        loginInfo : "Prijavljen je "
+        loginInfo : "",
+        steviloIgerVKosarici: ref(0.0)
       }
     }
 }
@@ -62,19 +72,19 @@ export default {
 }
 
 .nav_links li:hover {
-    background-color: #4CAF50;
+    background-color: #dc143c;
     color: black;
 }
 
 .nav_links li.active {
-    background-color: #4CAF50;
+    background-color: #dc143c;
     color: white;
 }
 
 /* ---------------------------------navigation bar login register------------------------------- */
 
 .nav_links .buttons {
-    float: right;
+    height:80px;
     color: lightgray;
     text-align: center;
     padding: 14px 16px;
@@ -83,7 +93,7 @@ export default {
 }
 
 
-.buttons button {
+/* .buttons button {
     margin-left: 20px;
     padding: 3px 12px;
     border: none;
@@ -91,5 +101,5 @@ export default {
     cursor: pointer;
     transition: all 0.3s ease 0s;
     background-color: #4CAF50;
-}
+} */
 </style>

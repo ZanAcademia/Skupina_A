@@ -1,0 +1,47 @@
+{
+    "steviloIger":6,
+    "Igre":[
+        {
+            "id":0,
+            "ime":"Harry Potter",
+            "opis":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada bibendum purus et luctus. Maecenas id tristique velit, vel scelerisque erat. Aliquam a ornare diam.",
+            "cena":"14.99",
+            "naVoljo":true
+        },
+        {
+            "id":1,
+            "ime":"Battleship",
+            "opis":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada bibendum purus et luctus. Maecenas id tristique velit, vel scelerisque erat. Aliquam a ornare diam.",
+            "cena":"8.99",
+            "naVoljo":true
+        },
+        {
+            "id":2,
+            "ime":"Shark bite",
+            "opis":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada bibendum purus et luctus. Maecenas id tristique velit, vel scelerisque erat. Aliquam a ornare diam.",
+            "cena":"6.45",
+            "naVoljo":true
+        },
+        {
+            "id":3,
+            "ime":"Catan",
+            "opis":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada bibendum purus et luctus. Maecenas id tristique velit, vel scelerisque erat. Aliquam a ornare diam.",
+            "cena":"12.99",
+            "naVoljo":true
+        },
+        {
+            "id":4,
+            "ime":"Villainous",
+            "opis":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada bibendum purus et luctus. Maecenas id tristique velit, vel scelerisque erat. Aliquam a ornare diam.",
+            "cena":"11.99",
+            "naVoljo":true
+        },
+        {
+            "id":5,
+            "ime":"Trekking",
+            "opis":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada bibendum purus et luctus. Maecenas id tristique velit, vel scelerisque erat. Aliquam a ornare diam.",
+            "cena":"15.25",
+            "naVoljo":false
+        }
+    ]
+}

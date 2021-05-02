@@ -4,6 +4,8 @@ class SeznamUporabnika{
         this.stevilouporabnikov = vsiUporabniki.length;
         this.Uporabniki = vsiUporabniki;
         localStorage.setItem('storageVsiUporabniki', JSON.stringify(this));
+        console.log(this);
+        console.log(JSON.stringify(this));
     }
 }
 export default SeznamUporabnika;

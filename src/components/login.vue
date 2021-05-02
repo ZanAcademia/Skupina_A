@@ -1,7 +1,7 @@
 <template>
-    <h1>Login</h1>
+    <h1 class="font-daysLater generalRed font-60">Vpis v portal</h1>
     <div>
-    <h3>Vpis uporabnika</h3>
+    <!-- <h3>Vpis uporabnika</h3> -->
     <div>
       <input class="font-16 w-320 obvezno" id="uporabniskoIme" type="text" placeholder="Uporabniško ime" autocomplete="off" />
       <span class="obveznoPolje d-none">To polje je obvezno</span>
@@ -11,8 +11,8 @@
       <span class="obveznoPolje d-none">To polje je obvezno</span>
     </div>
     <p id="napacniPodatki" class="error-msg d-none">Napačno uporabniško ime ali geslo!</p>
-    <button v-on:click="login" class="cursor-pointer mt-20">Vpis</button>
-    <router-link :to="{ name:'register'}"><button>Register</button></router-link>
+    <button v-on:click="login" class="btn-main mt-20">Vpiši se</button>
+    <router-link :to="{ name:'register'}"><button class="btn-main btn-registracija">Registracija</button></router-link>
   </div>
 </template>
 
@@ -58,7 +58,8 @@ export default {
         }
         if (vpisan) {
             localStorage.setItem("vpisanUporabnik", JSON.stringify(vpisanUporabnik));
-            this.$router.push('/');
+            // this.$router.push('/');
+            location.href = "/igre";
         } else {
             document.getElementById("napacniPodatki").classList.remove("d-none");            
         }

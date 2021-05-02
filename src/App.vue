@@ -5,8 +5,28 @@
 
 <script>
 import navigacija from '@/components/navigacija.vue'
+import SeznamUporabnika from '@/model/SeznamUporabnikov.js'
 
 export default {
+  created() {
+    if(localStorage.getItem("storageVsiUporabniki") == null) {
+      try {
+            var jsonUporabniki = require('../src/data/seznamUporabnikov.json');
+            if(jsonUporabniki != null) {
+              var lokalniUporabniki = jsonUporabniki;
+              var arrUporabniki = [];
+              if(lokalniUporabniki.Uporabniki != null && lokalniUporabniki.Uporabniki.length > 0) {
+                lokalniUporabniki.Uporabniki.forEach(uporabnik => {
+                  arrUporabniki.push(uporabnik);
+                });
+                var seznamUporabnikov = new SeznamUporabnika(arrUporabniki);
+                localStorage.setItem("storageVsiUporabniki", JSON.stringify(seznamUporabnikov));
+              }
+            }
+          }
+          catch(e) {console.log(e);}
+    }
+  },
   name: 'App',
   components: {
     'glavna-navigacija': navigacija

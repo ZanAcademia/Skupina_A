@@ -1,7 +1,7 @@
 <template>
-    <h1>Resitracija</h1>
+    <h1 class="font-daysLater generalRed font-60">Registracija</h1>
     <div>
-    <h3>Nov uporabnik</h3>
+    <!-- <h3>Nov uporabnik</h3> -->
     <div>
       <input class="font-16 w-320 obvezno" id="nov_uporabniskoIme" type="text" placeholder="Uporabniško ime" autocomplete="off" />
       <span class="obveznoPolje d-none">To polje je obvezno</span>
@@ -10,12 +10,13 @@
       <input class="font-16 font-arial w-320 obvezno" id="nov_geslo" type="password" placeholder="geslo" autocomplete="off" />
       <span class="obveznoPolje d-none">To polje je obvezno</span>
     </div>
-    <div>
-      Admin: <input id="nov_adminCheck" type="checkbox"/>
+    <div class="mt-20">
+      Je administrator: <input id="nov_adminCheck" type="checkbox"/>
     </div>
-    <button v-on:click="register" class="cursor-pointer mt-20">Registracija</button>
+    <button v-on:click="register" class="btn-main mt-20">Registracija</button>
   </div>
-  <div class="mt-40 mb-60">
+  <div class="mt-40 mb-60"
+  v-if="uporabnikAdmin">
     <h3>Seznam uporabnikov</h3>
     <p v-if="niUporabnikov">{{niUporabnikovText}}</p>
     <table 
@@ -60,7 +61,7 @@ import SeznamUporabnikov from '../model/SeznamUporabnikov.js'
 export default {
     created() {
       this.napolniSeznam();
-      // console.log('Component has been created!');
+      this.uveljaviVlogo();
     },
     methods: {
         register : function() {
@@ -101,11 +102,11 @@ export default {
         }
         if(this.seznamVsehUporabnikov.length == 0) {
           this.prikaziTabelo = false;
-          this.prikaziNiIger = true;
+          this.niUporabnikov = true;
         }
         else {
           this.prikaziTabelo = true;
-          this.prikaziNiIger = false;
+          this.niUporabnikov = false;
         }
         
       },
@@ -127,13 +128,29 @@ export default {
         console.log("novSeznamUporabnikov", novSeznamUporabnikov);
         this.$router.push('/login');
       },
+
+      uveljaviVlogo : function() {
+        let vpisanUporabnikTemp = localStorage.getItem("vpisanUporabnik");
+        if(vpisanUporabnikTemp != null && typeof vpisanUporabnikTemp != 'undefined') {
+          this.vpisanUporabnik = JSON.parse(localStorage.getItem("vpisanUporabnik"));
+          console.log(this.vpisanUporabnik);
+          console.log(this.vpisanUporabnik.admin);
+          if(this.vpisanUporabnik != null) {
+            this.uporabnikVpisan = true;
+            this.uporabnikAdmin = this.vpisanUporabnik.admin;
+          }  
+        }
+        
+      },
     },
     data () {
       return {
         seznamVsehUporabnikov: [],
         niUporabnikovText: "Ni uporabnikov",
         prikaziTabelo: false,
-        niUporabnikov: true
+        niUporabnikov: true,
+        uporabnikVpisan: false,
+        uporabnikAdmin: false
       }
     },
 }

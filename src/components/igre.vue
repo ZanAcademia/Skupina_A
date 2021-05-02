@@ -1,19 +1,19 @@
 <template>
 <!-- seznam iger -->
-  <h1>Igre</h1>
-  <button v-on:click="odpriNovaIgraModal" v-show="this.uporabnikAdmin">Nova igra</button>
+  <h1 class="font-daysLater generalRed font-60">Igre</h1>
+  <button v-on:click="odpriNovaIgraModal" v-show="this.uporabnikAdmin" class="btn-main btn-novaIgra">Nova igra</button>
   <div class="mt-40 mb-60">
-    <h3>Seznam iger</h3>
     <p v-if="prikaziNiIger">{{niIger}}</p>
     <table 
     v-if="prikaziTabelo" 
     class="tabelaIger ml-auto mr-auto"
     v-bind:key="this.seznamVsehIger.length">
-      <tr>
+      <tr class="redBackground color-white">
         <th>ID</th>
         <th>Ime</th>
         <th>Opis</th>
         <th>Cena</th>
+        <th v-if="this.uporabnikVpisan">V košarico</th>
         <th v-show="this.uporabnikAdmin">Uredi</th>
         <th v-show="this.uporabnikAdmin">Odstrani</th>
       </tr>
@@ -23,20 +23,25 @@
         <td>
           {{igra.id}}
         </td>
-        <td>
+        <td class="text-left font-bold">
           {{igra.ime}}
         </td>
-        <td>
+        <td class="text-left">
           {{igra.opis}}
         </td>
         <td class="text-right">
-          {{igra.cena}} €
+          {{igra.cena}} € / teden
+        </td>
+        <td v-if="uporabnikVpisan">
+          <a v-on:click="odpriDodajanjeVKosarico(igra.id, igra.cena, igra.ime)">
+            <img class="kosaricaTabela" src="../images/icons/cart.png" />
+          </a>
         </td>
         <td v-show="this.uporabnikAdmin">
-          <a v-on:click="odpriUrediIgroModal(igra.id)" class="cursor-pointer">Uredi</a>
+          <a v-on:click="odpriUrediIgroModal(igra.id)" class="cursor-pointer"><img src="../images/icons/edit.png" /></a>
         </td>
         <td v-show="this.uporabnikAdmin">
-          <a class="cursor-pointer" v-on:click="odstraniIgro(igra.id)">x</a>
+          <a class="cursor-pointer" v-on:click="odstraniIgro(igra.id)"><img src="../images/icons/delete.png" /></a>
         </td>
       </tr>
     </table>
@@ -61,7 +66,7 @@
                 <input class="font-16 w-320 obvezno obvezno_novo" id="novaIgra_cena" type="text" placeholder="Cena izposoje" autocomplete="off" v-on:keydown="jeStevilka($event)" />
                 <p class="obveznoPolje obveznoPoljeUstvariIgro d-none">To polje je obvezno</p>
             </div>
-            <button v-on:click="dodajIgro" class="cursor-pointer mt-20">Dodaj igro</button>
+            <button v-on:click="dodajIgro" class="btn-main mt-20">Dodaj igro</button>
         </div>
     </div>
 </div>
@@ -70,8 +75,8 @@
 <div id="urediIgroModal" ref="urediIgroModal" class="modal d-none">
     <div class="modalContent">
         <div class="modalHeader">
-        <h3>Uredi igro</h3>
-        <a class="modalClose" v-on:click="zapriModalUrediIgro">x</a>
+          <h3>Uredi igro</h3>
+          <a class="modalClose" v-on:click="zapriModalUrediIgro">x</a>
         </div>
         <div class="modalBody">
             <div>
@@ -86,7 +91,34 @@
                 <p class="obveznoPolje obveznoPoljeUrediIgro d-none">To polje je obvezno</p>
             </div>
             <input id="idIgre" readonly class="d-none"/>
-            <button v-on:click="shraniUrejenoIgro(this.idIzbraneIgre)" class="cursor-pointer mt-20">Shrani</button>
+            <button v-on:click="shraniUrejenoIgro(this.idIzbraneIgre)" class="btn-main mt-20">Shrani</button>
+        </div>
+    </div>
+</div>
+
+<!-- popup za dodajanje v košarico -->
+<div id="dajIgroVKosaricoModal" ref="dajIgroVKosarico" class="modal d-none">
+    <div class="modalContent">
+        <div class="modalHeader">
+          <h3>Dodaj v kosarico</h3>
+          <a class="modalClose" v-on:click="zapriModalDodajVKosarico">x</a>
+        </div>
+        <div class="modalBody">
+          <label class="font-bold font-18">Izberi:</label>
+          <div>
+              <select id="steviloTednovZaKosarico" class="mt-10 font-18" v-on:change="spremeniTrajanjeIzposoje()">
+                <option value="1" selected>1 teden</option>
+                <option value="2">2 tedna</option>
+                <option value="3">3 tedne</option>
+                <option value="4">4 tedne</option>
+              </select>
+          </div>
+          <input id="idIgreZaKosarico" readonly class="d-none"/>
+          <input id="cenaZaKosarico" readonly class="d-none"/>
+          <input id="imeIgreZaKosarico" readonly class="d-none"/>
+          <p class="font-18 font-bold">Cena: {{this.cenaZaKosarico}} € </p>
+          <button v-on:click="dodajIgroVKosarico_click(this.idIzbraneIgre)" class="btn-main mt-20">Dodaj v košarico</button>
+          <button class="ml-10 btn-main" v-on:click="naBlagajno_click">Na blagajno</button> 
         </div>
     </div>
 </div>
@@ -97,6 +129,8 @@
   import {ref} from 'vue';
   import Igra from '../model/igra';
   import SeznamIger from '../model/SeznamIger';
+  import IgraVKosarici from '../model/igraVKosarici';
+  import Kosarica from '../model/Kosarica';
 
   export default {
     // create list of games
@@ -106,6 +140,30 @@
       // console.log('Component has been created!');
     },
     methods: {
+      dodajIgroVKosarico_click: function() {
+        this.dajVKosarico();
+        this.zapriModalDodajVKosarico();
+      },
+      naBlagajno_click : function() {
+        this.dajVKosarico();
+        location.href = '/kosarica';
+      },
+      dajVKosarico : function() {
+        let idIgre = document.getElementById('idIgreZaKosarico').value;
+        let cena = document.getElementById('cenaZaKosarico').value;
+        let trajanjeIzposojeVTednih = document.getElementById('steviloTednovZaKosarico').value;
+        let imeIgre = document.getElementById('imeIgreZaKosarico').value;
+        let igreVKosarici = [];
+        var novaIgra = new IgraVKosarici(idIgre, cena, trajanjeIzposojeVTednih, imeIgre);
+        if(localStorage.getItem("storageKosarica") != null) {
+          let res = JSON.parse(localStorage.getItem("storageKosarica"));
+          igreVKosarici = res.Igre;
+        }
+        igreVKosarici.push(novaIgra);
+        let novaKosarica = new Kosarica(igreVKosarici);
+        var elem = document.getElementById('gumbKosarica');
+        elem.innerText = 'Košarica (' + novaKosarica.steviloIger + ')';
+      },
       napolniSeznam : function() {
         var vseIgre = [];
         if(localStorage.getItem("storageVseIgre") != null) {
@@ -116,6 +174,20 @@
               this.seznamVsehIger.push(igra);
             });
           }
+        }
+        else {
+          try {
+            var jsonIgre = require('../data/seznamIger.json');
+            if(jsonIgre != null) {
+              var lokalneIgre = jsonIgre;
+              if(lokalneIgre.Igre != null && lokalneIgre.Igre.length > 0) {
+                lokalneIgre.Igre.forEach(igra => {
+                  this.seznamVsehIger.push(igra);
+                });
+              }
+            }
+          }
+          catch(e) {console.log(e);}
         }
         this.urediPrazenSeznamIger();
       },
@@ -130,7 +202,6 @@
             this.uporabnikAdmin = this.vpisanUporabnik.admin;
           }  
         }
-        
       },
       urediPrazenSeznamIger : function() {
         if(this.seznamVsehIger.length == 0) {
@@ -160,6 +231,19 @@
       },
       odpriNovaIgraModal : function() {
         document.getElementById('novaIgraModal').classList.remove('d-none');
+      },
+      odpriDodajanjeVKosarico : function(id, cena, ime) {
+        document.getElementById('steviloTednovZaKosarico').value = 1
+        document.getElementById('dajIgroVKosaricoModal').classList.remove('d-none');
+        document.getElementById('idIgreZaKosarico').value = id;
+        document.getElementById('cenaZaKosarico').value = cena;
+        document.getElementById('imeIgreZaKosarico').value = ime;
+        this.cenaZaKosarico = parseFloat(cena);
+      },
+      spremeniTrajanjeIzposoje : function () {
+        var cena = parseFloat(document.getElementById('cenaZaKosarico').value);
+        var kolicina = parseFloat(document.getElementById('steviloTednovZaKosarico').value);
+        this.cenaZaKosarico = (kolicina * cena).toFixed(2);
       },
       dodajIgro : function() {
         let lahkoNadaljuje = true;
@@ -205,6 +289,9 @@
           errorSporocila.forEach(function(item) {
             item.classList.add('d-none');
           });
+      },
+      zapriModalDodajVKosarico : function() {
+        document.getElementById('dajIgroVKosaricoModal').classList.add('d-none');
       },
       odpriUrediIgroModal : function(id) {
         this.idIzbraneIgre = id;
@@ -266,6 +353,7 @@
       return {
         seznamVsehIger: seznamVsehIger,
         niIger: "Na seznamu ni iger",
+        cenaZaKosarico: ref(0.0),
         prikaziTabelo: ref(false),
         prikaziNiIger: ref(true),
         idIzbraneIgre: ref(""),
@@ -273,6 +361,6 @@
         uporabnikVpisan: ref(false),
         uporabnikAdmin: ref(false)
       }
-    },
+    }
   }
 </script>
