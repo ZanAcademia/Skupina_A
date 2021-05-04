@@ -2,7 +2,8 @@
   <nav>
     <ul class="nav_links m-0 p-0">
       <li><router-link v="Igre" :to="{ name:'home' }"><img src="../images/Logo.png" class="headerLogo" /></router-link></li>
-      <li class="adminPanelIme"><router-link v-if="vpisanAdmin" :to="{ name:'adminPanel' }" >Admin panel</router-link></li>
+      <li class="adminPanelIme"><router-link v-if="vpisanAdmin" :to="{ name:'adminPanel' }" >Uporabniki</router-link></li>
+      <li class="adminPanelIme"><router-link v-if="vpisanAdmin" :to="{ name: 'izposoje' }" >Izposoje</router-link></li>
       <!-- <li><router-link v="Kosarica" :to="{ name:'kosarica'}">Kosarica</router-link></li> -->
       <div class="buttons d-flex flex-right-center">
         <div>
@@ -67,13 +68,17 @@ export default {
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
+    position:relative;
 }
 
 .nav_links li a {
-    display: block;
+    display: inline-block;
     text-decoration: none;
     text-align: center;
     color: lightgray;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .nav_links li:hover {

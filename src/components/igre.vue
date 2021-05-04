@@ -33,9 +33,12 @@
           {{igra.cena}} € / teden
         </td>
         <td v-if="uporabnikVpisan">
-          <a v-on:click="odpriDodajanjeVKosarico(igra.id, igra.cena, igra.ime)">
-            <img class="kosaricaTabela" src="../images/icons/cart.png" />
-          </a>
+          <div v-if="igra.naVoljo">
+            <a v-on:click="odpriDodajanjeVKosarico(igra.id, igra.cena, igra.ime)">
+              <img class="kosaricaTabela" src="../images/icons/cart.png" />
+            </a>
+          </div>
+          <span v-if="!igra.naVoljo">Ni na zalogi</span>
         </td>
         <td v-show="this.uporabnikAdmin">
           <a v-on:click="odpriUrediIgroModal(igra.id)" class="cursor-pointer"><img src="../images/icons/edit.png" /></a>
@@ -136,6 +139,7 @@
     // create list of games
     created() {
       this.napolniSeznam();
+      console.log(this.seznamVsehIger);
       this.uveljaviVlogo();
       // console.log('Component has been created!');
     },
@@ -184,8 +188,11 @@
                 lokalneIgre.Igre.forEach(igra => {
                   this.seznamVsehIger.push(igra);
                 });
+                var sezamIzJsona = new SeznamIger(lokalneIgre.Igre);
+                console.log(sezamIzJsona);
               }
             }
+            
           }
           catch(e) {console.log(e);}
         }

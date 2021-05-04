@@ -41,7 +41,7 @@
             "ime":"Trekking",
             "opis":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada bibendum purus et luctus. Maecenas id tristique velit, vel scelerisque erat. Aliquam a ornare diam.",
             "cena":"15.25",
-            "naVoljo":false
+            "naVoljo":true
         }
     ]
 }

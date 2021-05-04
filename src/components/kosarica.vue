@@ -38,23 +38,81 @@
 
   <p class="font-bold font-18 mt-20">Skupaj: {{this.skupnaCena}} €</p>
   <div class="text-center mt-10">
-    <button class="btn-main" v-if="prikaziTabelo">Oddaj naročilo</button>
+    <button class="btn-main" v-if="prikaziTabelo" v-on:click="oddajNarocilo">Oddaj naročilo</button>
   </div>
 
+<!-- popup uspeh -->
+<div id="uspehModal" ref="uspehModal" class="modal d-none">
+    <div class="modalContent">
+        <div class="modalHeader">
+          <h3>Narocilo uspesno oddano!</h3>
+          <a class="modalClose" v-on:click="zapriUspeh">x</a>
+        </div>
+        <div class="modalBody">
+          <button class="ml-10 btn-main" v-on:click="zapriUspeh">Vredu</button> 
+        </div>
+    </div>
+</div>
 
 </template>
 
 <script>
   import {ref} from 'vue';
   import Kosarica from '../model/Kosarica';
-  // import IgraVKosarici from '../model/igraVKosarici';
-  // import Kosarica from '../model/Kosarica';
+  import Izposoja from '../model/Izposoja';
+  import SeznamIzposoj from '../model/SeznamIzposoj';
+  import SeznamIger from '../model/SeznamIger';
   export default {
     created() {
       this.napolniKosarico();
       this.uveljaviVlogo();
     },
     methods: {
+      oddajNarocilo : function() {
+        if(localStorage.getItem("storageKosarica") != null) {
+          let res = JSON.parse(localStorage.getItem("storageKosarica"));
+          var igreVKosarici = res.Igre;
+          if(localStorage.getItem('storageVseIgre') != null) {
+            var seznamIgerJson = JSON.parse(localStorage.getItem('storageVseIgre'));
+            var seznamIger = seznamIgerJson.Igre;
+            for(var z = 0; z < igreVKosarici.length; z++) {
+              var izposojenaIgra = seznamIger.find(x => x.id == igreVKosarici[z].idIgre);
+              if(typeof izposojenaIgra != 'undefined') {
+                izposojenaIgra.naVoljo = false;
+              }
+            }
+            var novSeznamIger = new SeznamIger(seznamIger);
+            console.log(novSeznamIger);
+          }
+
+          var izposojeZaOddajo = [];
+          var obstojeceIzposoje = [];
+          for(var i = 0; i < igreVKosarici.length; i++) {
+            var novaIzposoja = new Izposoja(igreVKosarici[i], this.vpisanUporabnik.uporabniskoIme, this.vpisanUporabnik.id);
+            izposojeZaOddajo.push(novaIzposoja); 
+          }
+          var novSeznamIzposoj;
+          if(localStorage.getItem('storageIzposoje') != null) {
+              obstojeceIzposoje = JSON.parse(localStorage.getItem('storageIzposoje')).Izposoje;
+              for(var j = 0; j < izposojeZaOddajo.length; j++) {
+              obstojeceIzposoje.push(izposojeZaOddajo[j]);
+            }
+            novSeznamIzposoj = new SeznamIzposoj(obstojeceIzposoje);
+          }
+          else 
+            novSeznamIzposoj = new SeznamIzposoj(izposojeZaOddajo);
+          console.log(novSeznamIzposoj);
+          
+
+          this.prikaziUspeh();
+          var novaKosarica = new Kosarica([]);
+          this.seznamVsehIger = novaKosarica.Igre;
+          this.urediPrazenSeznamIger();
+          var elem = document.getElementById('gumbKosarica');
+          elem.innerText = 'Košarica (' + novaKosarica.steviloIger + ')';
+          this.skupnaCena = 0.0;
+        }
+      },
       odstraniIgroIzKosarice : function(id) {
         var igre = this.seznamVsehIger;
         for(var i = 0; i < this.seznamVsehIger.length; i++) {
@@ -68,8 +126,16 @@
             });
             this.skupnaCena = cena.toFixed(2);
             this.urediPrazenSeznamIger();
+            var elem = document.getElementById('gumbKosarica');
+            elem.innerText = 'Košarica (' + novSeznamIger.steviloIger + ')';
           }
         }
+      },
+      prikaziUspeh : function() {
+        document.getElementById('uspehModal').classList.remove('d-none');
+      },
+      zapriUspeh : function() {
+        document.getElementById('uspehModal').classList.add('d-none');
       },
       napolniKosarico : function() {
         var vseIgre = [];
@@ -101,12 +167,13 @@
         let vpisanUporabnikTemp = localStorage.getItem("vpisanUporabnik");
         if(vpisanUporabnikTemp != null && typeof vpisanUporabnikTemp != 'undefined') {
           this.vpisanUporabnik = JSON.parse(localStorage.getItem("vpisanUporabnik"));
-          console.log(this.vpisanUporabnik);
-          console.log(this.vpisanUporabnik.admin);
           if(this.vpisanUporabnik != null) {
             this.uporabnikVpisan = true;
             this.uporabnikAdmin = this.vpisanUporabnik.admin;
-          }  
+          }
+        }
+        if(!this.uporabnikVpisan) {
+          location.href = '/igre';
         }
       },
     },
