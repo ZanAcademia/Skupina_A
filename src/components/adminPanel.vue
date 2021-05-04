@@ -29,7 +29,7 @@
           {{uporabnik.admin ? "yes" : "no"}}
         </td>
         <td>
-            <a class="cursor-pointer" v-on:click="povisaj(uporabnik.id)"><img src="../images/icons/delete.png" /></a>
+            <a class="cursor-pointer" v-on:click="povisaj(uporabnik.id)"><img src="../images/icons/add.png" /></a>
         </td>
         <td>
           <a class="cursor-pointer" v-on:click="izbrisi(uporabnik.id)"><img src="../images/icons/delete.png" /></a>
