@@ -223,6 +223,13 @@ table td {
     vertical-align:middle;
 }
 
+.adminPanelIme {
+    font-size:30px;
+    font-family:DaysLater;
+    color: white;
+    vertical-align:middle;
+}
+
 .redBackground {
     background-color:#dc143c;
 }

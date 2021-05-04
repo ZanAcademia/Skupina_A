@@ -2,6 +2,7 @@
   <nav>
     <ul class="nav_links m-0 p-0">
       <li><router-link v="Igre" :to="{ name:'home' }"><img src="../images/Logo.png" class="headerLogo" /></router-link></li>
+      <li class="adminPanelIme"><router-link v-if="vpisanAdmin" :to="{ name:'adminPanel' }" >Admin panel</router-link></li>
       <!-- <li><router-link v="Kosarica" :to="{ name:'kosarica'}">Kosarica</router-link></li> -->
       <div class="buttons d-flex flex-right-center">
         <div>
@@ -25,6 +26,8 @@ export default {
         this.prikaziOdjavo = true;
         var res = JSON.parse(localStorage.getItem("vpisanUporabnik"));
         this.loginInfo += res.uporabniskoIme;
+        if (res.admin) 
+          this.vpisanAdmin = true;
       }
       if(localStorage.getItem("storageKosarica") != null) {
           var res2 = JSON.parse(localStorage.getItem("storageKosarica"));
@@ -42,6 +45,7 @@ export default {
       return {
         prikaziLogin : true,
         prikaziOdjavo : false,
+        vpisanAdmin : false,
         loginInfo : "",
         steviloIgerVKosarici: ref(0.0)
       }
@@ -58,16 +62,17 @@ export default {
 }
 /* ---------------------------------navigation bar strani------------------------------- */
 .nav_links li {
+    height: 80px;
     float: left;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
 }
 
 .nav_links li a {
+    display: block;
     text-decoration: none;
+    text-align: center;
     color: lightgray;
 }
 
